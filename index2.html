@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPPU T.E. Comp - Question Bank Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .semester-section {
+            margin-bottom: 50px;
+        }
+
+        .semester-title {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .semester-title h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .semester-title p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .subject-card:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        .subject-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .subject-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .subject-info h3 {
+            color: #333;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .subject-code {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .subject-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-questions {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-units {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .badge-priority {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .subject-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff9800;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 SPPU T.E. Computer Engineering</h1>
+            <p>Most Repeated & High-Probability Questions (2019 Pattern)</p>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <h3>8+</h3>
+                <p>Subjects Covered</p>
+            </div>
+            <div class="stat-card">
+                <h3>200+</h3>
+                <p>High-Chance Questions</p>
+            </div>
+            <div class="stat-card">
+                <h3>2022-25</h3>
+                <p>Papers Analyzed</p>
+            </div>
+        </div>
+
+        <!-- SEMESTER V -->
+        <div class="semester-section">
+            <div class="semester-title">
+                <h2>📚 Semester V</h2>
+                <p>Core subjects for Third Year Computer Engineering students</p>
+            </div>
+
+            <div class="subjects-grid">
+                <!-- DBMS -->
+                <div class="subject-card">
+                    <div class="subject-header">
+                        <div class="subject-icon">DB</div>
+                        <div class="subject-info">
+                            <h3>Database Management System</h3>
+                            <span class="subject-code">310241</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">35+ Questions</span>
+                        <span class="badge badge-units">Units III-VI</span>
+                        <span class="badge badge-priority">⭐ High Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        Covers Normalization, Transaction Management, NoSQL, and Advanced Database concepts.
+                        100% repeated questions on XML and CAP theorem.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="https://claude.ai/public/artifacts/8276e512-eddf-4bdf-b271-2ccb09b66551"
+                            target="_blank" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+
+                <!-- TOC -->
+                <div class="subject-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="subject-header">
+                        <div class="subject-icon">TC</div>
+                        <div class="subject-info">
+                            <h3>Theory of Computation</h3>
+                            <span class="subject-code">310242</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">30+ Questions</span>
+                        <span class="badge badge-units">All Units</span>
+                        <span class="badge badge-priority">⭐ High Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        Finite Automata, Regular Languages, Context-Free Grammars, Turing Machines,
+                        and Decidability concepts.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SPOS -->
+                <div class="subject-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="subject-header">
+                        <div class="subject-icon">SP</div>
+                        <div class="subject-info">
+                            <h3>Systems Programming & OS</h3>
+                            <span class="subject-code">310243</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">32+ Questions</span>
+                        <span class="badge badge-units">All Units</span>
+                        <span class="badge badge-priority">⭐ Medium Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        Assemblers, Loaders, Linkers, Macros, Process Management, Memory Management,
+                        and File Systems.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CNS -->
+                <div class="subject-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="subject-header">
+                        <div class="subject-icon">CN</div>
+                        <div class="subject-info">
+                            <h3>Computer Networks & Security</h3>
+                            <span class="subject-code">310244</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">38+ Questions</span>
+                        <span class="badge badge-units">All Units</span>
+                        <span class="badge badge-priority">⭐ High Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        OSI Model, TCP/IP, Routing Algorithms, Network Security, Cryptography,
+                        and Security Protocols.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEMESTER VI -->
+        <div class="semester-section">
+            <div class="semester-title">
+                <h2>💻 Semester VI</h2>
+                <p>Advanced topics and specializations</p>
+            </div>
+
+            <div class="subjects-grid">
+                <!-- DSBDA -->
+                <div class="subject-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="subject-header">
+                        <div class="subject-icon">DS</div>
+                        <div class="subject-info">
+                            <h3>Data Science & Big Data</h3>
+                            <span class="subject-code">310251</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">35+ Questions</span>
+                        <span class="badge badge-units">All Units</span>
+                        <span class="badge badge-priority">⭐ High Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        Big Data Architecture, Hadoop, MapReduce, Data Mining, Machine Learning
+                        algorithms and applications.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+
+                <!-- WT -->
+                <div class="subject-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="subject-header">
+                        <div class="subject-icon">WT</div>
+                        <div class="subject-info">
+                            <h3>Web Technology</h3>
+                            <span class="subject-code">310252</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">30+ Questions</span>
+                        <span class="badge badge-units">All Units</span>
+                        <span class="badge badge-priority">⭐ Medium Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        HTML, CSS, JavaScript, PHP, MySQL, Servlets, JSP, AJAX, and modern web frameworks.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+
+                <!-- AI -->
+                <div class="subject-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="subject-header">
+                        <div class="subject-icon">AI</div>
+                        <div class="subject-info">
+                            <h3>Artificial Intelligence</h3>
+                            <span class="subject-code">310253</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">32+ Questions</span>
+                        <span class="badge badge-units">All Units</span>
+                        <span class="badge badge-priority">⭐ High Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        Intelligent Agents, Search Algorithms, Knowledge Representation, Machine Learning,
+                        and AI Applications.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Elective -->
+                <div class="subject-card coming-soon">
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <div class="subject-header">
+                        <div class="subject-icon">EL</div>
+                        <div class="subject-info">
+                            <h3>Elective II</h3>
+                            <span class="subject-code">310254A-D</span>
+                        </div>
+                    </div>
+                    <div class="subject-meta">
+                        <span class="badge badge-questions">25+ Questions</span>
+                        <span class="badge badge-units">Varies</span>
+                        <span class="badge badge-priority">⭐ Medium Priority</span>
+                    </div>
+                    <p class="subject-description">
+                        Information Security, AR/VR, Cloud Computing, Software Modeling & Architectures.
+                    </p>
+                    <div class="action-buttons">
+                        <a href="#" class="btn btn-primary">
+                            📝 View Questions
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            📄 Syllabus
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Created by Ganesh Sanjay Kadam</strong></p>
+            <p>S.B. Patil College of Engineering, Indapur, Pune</p>
+            <p style="margin-top: 15px;">
+                📧 Contact: <a href="mailto:ganeshkadam@example.com">ganeshkadam@example.com</a> |
+                🌐 GitHub: <a href="https://github.com/yourusername" target="_blank">@yourusername</a>
+            </p>
+            <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+                🎯 "Helping SPPU students prepare smarter through repeated-question analysis"
+            </p>
+            <p style="margin-top: 10px; font-size: 0.85rem;">
+                © 2025 | Based on SPPU Question Papers (2022-2025) | For Educational Use Only
+            </p>
+        </footer>
+    </div>
+</body>
+
+</html>
